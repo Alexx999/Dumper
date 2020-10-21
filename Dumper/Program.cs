@@ -285,8 +285,9 @@ namespace Dumper
 
         private static bool IsReadable(MemoryProtection protect)
         {
-            return protect.HasFlag(MemoryProtection.ReadOnly) || protect.HasFlag(MemoryProtection.ReadWrite) ||
-                   protect.HasFlag(MemoryProtection.ExecuteRead) || protect.HasFlag(MemoryProtection.ExecuteReadWrite);
+            return (protect.HasFlag(MemoryProtection.ReadOnly) || protect.HasFlag(MemoryProtection.ReadWrite) ||
+                   protect.HasFlag(MemoryProtection.ExecuteRead) || protect.HasFlag(MemoryProtection.ExecuteReadWrite) ||
+                   protect.HasFlag(MemoryProtection.ExecuteWriteCopy)) && !protect.HasFlag(MemoryProtection.Guard);
         }
 
         private static void Dump(SafeProcessHandle process, string outFileName, IntPtr address, IntPtr length, bool unprotect)
